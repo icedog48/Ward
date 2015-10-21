@@ -1,4 +1,5 @@
-﻿using IceLib.Service.Exceptions;
+﻿using IceLib.Services.Exceptions;
+using IceLib.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,10 @@ namespace Ward.Service.Exceptions
 {
     public class IncorrectPasswordException : ValidationException
     {
+        public IncorrectPasswordException() { }
+
+        public IncorrectPasswordException(string message) : base(message) { }
+
+        public IncorrectPasswordException(IEnumerable<ValidationError> errors): base(errors) { }
     }
 }
