@@ -14,6 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using Ward.Service.Interfaces;
 using Ward.Service.Exceptions;
+using IceLib.Services.Exceptions;
 
 namespace Ward.NancyFx.Modules
 {
@@ -38,18 +39,19 @@ namespace Ward.NancyFx.Modules
         {
             var user = this.Bind<User>();
 
-            //Validate front-end input
-            if (validationHelper.HasErrors(user))
-                return this.ValidationErrorResponse(validationHelper.Errors);
-
             try
             {
+                //Validate front-end input
+                validationHelper.Validate(user);
+
                 //TODO: Usar o automapper
                 //authService.Login(user);
             }
-            catch (IceLib.Service.Exceptions.ValidationException ex)
+            catch (IceLib.Services.Exceptions.ValidationException ex)
             {
-                this.ValidationErrorResponse(ex.Errors);
+                return Negotiate
+                        .WithStatusCode(HttpStatusCode.BadRequest)
+                        .WithModel(ex.Errors);
             }
 
             return Negotiate

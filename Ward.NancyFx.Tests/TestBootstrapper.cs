@@ -22,6 +22,8 @@ namespace Ward.NancyFx.Tests
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             container.Register<ITokenizer>(new Tokenizer(cfg => cfg.WithKeyCache(new InMemoryTokenKeyStore())));
+            
+            container.Register<IAuthService>(this.AuthService);
         }
 
         protected override IRootPathProvider RootPathProvider
@@ -45,5 +47,7 @@ namespace Ward.NancyFx.Tests
                 return new FakeRootPathProvider();
             }
         }
+
+        public IAuthService AuthService { get; set; }
     }
 }
