@@ -95,6 +95,10 @@
       <Project>{674ddd6a-f486-477a-8ed0-d444782b4a6c}</Project>
       <Name>IceLib.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\IceLib\IceLib.Security\IceLib.Security.csproj">
+      <Project>{5cee531f-9a46-423d-a092-99dfacfa22d0}</Project>
+      <Name>IceLib.Security</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ward.Model\Ward.Model.csproj">
       <Project>{d2d00177-5b1a-4001-8bb5-9396579eca4b}</Project>
       <Name>Ward.Model</Name>

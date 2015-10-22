@@ -43,11 +43,22 @@ namespace Ward.NancyFx.Modules
             {
                 //Validate front-end input
                 validationHelper.Validate(user);
-
-                //TODO: Usar o automapper
-                //authService.Login(user);
+                
+                var authenticatedUser = authService.Login(user.Username, user.Password);
             }
-            catch (IceLib.Services.Exceptions.ValidationException ex)
+            catch (UserNotFoundException)
+            {
+                return Negotiate
+                        .WithStatusCode(HttpStatusCode.BadRequest)
+                        .WithModel("User not found");
+            }
+            catch (IncorrectPasswordException)
+            {
+                return Negotiate
+                        .WithStatusCode(HttpStatusCode.BadRequest)
+                        .WithModel("Incorrect password");
+            }
+            catch (AttributeValidationException ex)
             {
                 return Negotiate
                         .WithStatusCode(HttpStatusCode.BadRequest)

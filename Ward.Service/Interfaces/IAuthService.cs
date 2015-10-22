@@ -9,6 +9,6 @@ namespace Ward.Service.Interfaces
 {
     public interface IAuthService
     {
-        void Login(User user);
+        User Login(string username, string password);
     }
 }

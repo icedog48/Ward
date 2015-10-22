@@ -14,6 +14,8 @@ using Nancy.Testing;
 using Ward.Service.Interfaces;
 using Moq;
 using Ward.Model;
+using IceLib.Storage;
+using Ward.Service;
 
 namespace Ward.NancyFx.Tests
 {
@@ -22,8 +24,10 @@ namespace Ward.NancyFx.Tests
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             container.Register<ITokenizer>(new Tokenizer(cfg => cfg.WithKeyCache(new InMemoryTokenKeyStore())));
-            
-            container.Register<IAuthService>(this.AuthService);
+
+            container.Register<IRepository<User>>(this.UserRepository);
+
+            container.Register<IAuthService, AuthService>().AsMultiInstance();
         }
 
         protected override IRootPathProvider RootPathProvider
@@ -48,6 +52,6 @@ namespace Ward.NancyFx.Tests
             }
         }
 
-        public IAuthService AuthService { get; set; }
+        public IRepository<User> UserRepository { get; set; }
     }
 }
