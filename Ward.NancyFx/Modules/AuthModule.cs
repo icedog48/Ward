@@ -1,33 +1,29 @@
 ﻿using Nancy;
-using Nancy.ModelBinding;
 using Nancy.Authentication.Token;
-using IceLib.NancyFx.Attributes;
-using IceLib.NancyFx.Extensions;
-using IceLib.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Ward.NancyFx.Models;
-using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
 using Ward.Service.Interfaces;
 using Ward.Service.Exceptions;
+using Ward.Model;
+
+using IceLib.NancyFx.Attributes;
 using IceLib.Services.Exceptions;
+using IceLib.NancyFx.Binding;
 
 namespace Ward.NancyFx.Modules
 {
     public class AuthModule : WardModule
     {
         private readonly ITokenizer tokenizer;
-        private readonly ValidationHelper validationHelper;
         private readonly IAuthService authService;
+        private readonly BindHelper<UserViewModel, User> userBinder;
 
-        public AuthModule(ITokenizer tokenizer, ValidationHelper validationHelper, IAuthService authService) : base("/auth")
+        public AuthModule(ITokenizer tokenizer,
+                          BindHelper<UserViewModel, User> userBinder,
+                          IAuthService authService) : base("/auth")
         {
             this.tokenizer = tokenizer;
-            this.validationHelper = validationHelper;
+            this.userBinder = userBinder;
             this.authService = authService;
         }
 
@@ -37,16 +33,17 @@ namespace Ward.NancyFx.Modules
         [Post("/login")]
         public dynamic Login()
         {
-            var user = this.Bind<User>();
-
             try
             {
-                //Validate front-end input
-                validationHelper.Validate(user);
+                var user = this.userBinder.BindValidWith(this);
                 
                 var authenticatedUser = authService.Login(user.Username, user.Password);
+
+                return Negotiate
+                        .WithStatusCode(HttpStatusCode.OK)
+                        .WithModel(new AuthTokenViewModel());
             }
-            catch (UserNotFoundException)
+            catch (ResourceNotFoundException)
             {
                 return Negotiate
                         .WithStatusCode(HttpStatusCode.BadRequest)
@@ -64,10 +61,6 @@ namespace Ward.NancyFx.Modules
                         .WithStatusCode(HttpStatusCode.BadRequest)
                         .WithModel(ex.Errors);
             }
-
-            return Negotiate
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithModel(new AuthToken());
         }
     }
 }

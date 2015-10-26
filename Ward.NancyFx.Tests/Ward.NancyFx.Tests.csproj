@@ -95,6 +95,10 @@
       <Project>{674ddd6a-f486-477a-8ed0-d444782b4a6c}</Project>
       <Name>IceLib.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\IceLib\IceLib.NancyFx\IceLib.NancyFx.csproj">
+      <Project>{422302ab-0dc3-46c6-966c-bdef849dbe75}</Project>
+      <Name>IceLib.NancyFx</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\IceLib\IceLib.Security\IceLib.Security.csproj">
       <Project>{5cee531f-9a46-423d-a092-99dfacfa22d0}</Project>
       <Name>IceLib.Security</Name>
@@ -104,7 +108,7 @@
       <Name>Ward.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ward.NancyFx\Ward.NancyFx.csproj">
-      <Project>{8cf11035-c4d6-418f-a466-fc002025281e}</Project>
+      <Project>{197eb043-f996-47d6-88ad-e8a18e95a5b1}</Project>
       <Name>Ward.NancyFx</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ward.Service\Ward.Service.csproj">

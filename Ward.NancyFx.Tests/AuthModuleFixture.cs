@@ -31,11 +31,11 @@ namespace Ward.NancyFx.Tests
                 with.HttpRequest();
                 with.Accept("application/json");
                 with.Header("User-Agent", "Nancy Browser");
-                with.FormValue("UserName", "demo");
-                with.FormValue("Password", "demo");
+                with.FormValue("UserName", "admin");
+                with.FormValue("Password", "admin");
             });
 
-            var authResponse = response.Body.DeserializeJson<Models.AuthToken>();
+            var authResponse = response.Body.DeserializeJson<Models.AuthTokenViewModel>();
 
             // Then
             Assert.NotNull(authResponse);
@@ -80,19 +80,21 @@ namespace Ward.NancyFx.Tests
 
             // Then
             Assert.NotNull(errorResponse);
-
-            Assert.True(errorResponse.Any(x => x.MemberName.Equals("UserName", StringComparison.InvariantCultureIgnoreCase)));
-            Assert.True(errorResponse.Any(x => x.MemberName.Equals("Password", StringComparison.InvariantCultureIgnoreCase)));
         }
 
         public Browser Browser
         {
             get
             {
-                var authServiceMock = new Mock<IRepository<User>>();
+                var userRepositoryMock = new Mock<IRepository<User>>();
+                
+                var users = new List<User>();
+                    users.Add(new User() { Id = 1, Username = "admin", Password = "admin" });
+
+                userRepositoryMock.Setup(x => x.Items).Returns(users.AsQueryable());
 
                 var bootstrapper = new TestBootstrapper();
-                    bootstrapper.UserRepository = authServiceMock.Object;
+                    bootstrapper.UserRepository = userRepositoryMock.Object;
                 
                 return new Browser(bootstrapper); 
             }

@@ -9,6 +9,11 @@ namespace Ward.Model
 {
     public class User : Entity
     {
+        public User()
+        {
+
+        }
+
         public virtual string Username { get; set; }
 
         public virtual string Password { get; set; }

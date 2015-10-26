@@ -16,18 +16,30 @@ using Moq;
 using Ward.Model;
 using IceLib.Storage;
 using Ward.Service;
+using System.Reflection;
+using IceLib.Core.Model.Mapping;
+using Ward.NancyFx.Models.Mapping;
+using Ward.NancyFx.Models;
+using Ward.NancyFx.Modules;
 
 namespace Ward.NancyFx.Tests
 {
     public class TestBootstrapper : WardBootstrapper
     {
-        protected override void ConfigureApplicationContainer(TinyIoCContainer container)
+        public IRepository<User> UserRepository { get; set; }
+
+        protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
         {
-            container.Register<ITokenizer>(new Tokenizer(cfg => cfg.WithKeyCache(new InMemoryTokenKeyStore())));
+            base.ConfigureRequestContainer(container, context);
 
             container.Register<IRepository<User>>(this.UserRepository);
+        }
 
-            container.Register<IAuthService, AuthService>().AsMultiInstance();
+        protected override void ConfigureApplicationContainer(TinyIoCContainer container)
+        {
+            base.ConfigureApplicationContainer(container);
+
+            container.Register<ITokenizer>(new Tokenizer(cfg => cfg.WithKeyCache(new InMemoryTokenKeyStore())));
         }
 
         protected override IRootPathProvider RootPathProvider
@@ -51,7 +63,5 @@ namespace Ward.NancyFx.Tests
                 return new FakeRootPathProvider();
             }
         }
-
-        public IRepository<User> UserRepository { get; set; }
     }
 }

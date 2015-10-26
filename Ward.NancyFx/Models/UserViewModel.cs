@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace Ward.NancyFx.Models
 {
-    public class User
+    public class UserViewModel
     {
+        public UserViewModel()
+        {
+
+        }
+
         [Required(ErrorMessage = "Username must have a value")]
         public virtual string Username { get; set; }
 

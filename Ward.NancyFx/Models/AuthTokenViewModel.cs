@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ward.NancyFx.Models
 {
-    public class AuthToken
+    public class AuthTokenViewModel
     {
         public string Token { get; set; }
     }

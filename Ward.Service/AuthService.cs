@@ -29,7 +29,7 @@ namespace Ward.Service
         {   
             var user = this.ActiveItems().FirstOrDefault(x => x.Username == username);
 
-            if (user == null) throw new UserNotFoundException();
+            if (user == null) throw new ResourceNotFoundException();
 
             password = Encryption.GenerateSHA1Hash(GetSignature(username, password));
 

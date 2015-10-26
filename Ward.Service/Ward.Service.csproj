@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="AuthService.cs" />
     <Compile Include="Exceptions\IncorrectPasswordException.cs" />
-    <Compile Include="Exceptions\UserNotFoundException.cs" />
+    <Compile Include="Exceptions\ResourceNotFoundException.cs" />
     <Compile Include="Interfaces\IAuthService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
