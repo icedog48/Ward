@@ -106,9 +106,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\AuthTokenViewModel.cs" />
-    <Compile Include="Models\Mapping\WardMapper.cs" />
-    <Compile Include="Models\UserViewModel.cs" />
+    <Compile Include="Automapper\Profiles\DomainToResourceMappingProfile.cs" />
+    <Compile Include="Automapper\Profiles\ResourceToDomainMappingProfile.cs" />
+    <Compile Include="Resources\AuthTokenResource.cs" />
+    <Compile Include="Automapper\AutoMapperConfig.cs" />
+    <Compile Include="Resources\Mapping\WardMapper.cs" />
+    <Compile Include="Resources\UserResource.cs" />
     <Compile Include="Modules\AuthModule.cs" />
     <Compile Include="Modules\WardModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -141,6 +144,7 @@
       <Name>Ward.Service</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

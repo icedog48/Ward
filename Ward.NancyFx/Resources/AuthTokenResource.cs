@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ward.NancyFx.Models
+namespace Ward.NancyFx.Resources
 {
-    public class AuthTokenViewModel
+    public class AuthTokenResource
     {
         public string Token { get; set; }
     }

@@ -18,15 +18,22 @@ using IceLib.Storage;
 using Ward.Service;
 using System.Reflection;
 using IceLib.Core.Model.Mapping;
-using Ward.NancyFx.Models.Mapping;
-using Ward.NancyFx.Models;
+using Ward.NancyFx.Resources.Mapping;
+using Ward.NancyFx.Resources;
 using Ward.NancyFx.Modules;
+using Nancy.Bootstrapper;
+using Ward.NancyFx.Automapper;
 
 namespace Ward.NancyFx.Tests
 {
     public class TestBootstrapper : WardBootstrapper
     {
         public IRepository<User> UserRepository { get; set; }
+
+        public TestBootstrapper()
+        {
+            AutoMapperConfig.RegisterMappings();
+        }
 
         protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
         {

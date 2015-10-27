@@ -11,7 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Ward.NancyFx.Models.Mapping;
+using Ward.NancyFx.Resources.Mapping;
 using Ward.NancyFx.Modules;
 using Ward.Service;
 using Ward.Service.Interfaces;
@@ -30,7 +30,7 @@ namespace Ward.NancyFx
                 typeof(IAuthService).Assembly //Ward.Service
             });
 
-            container.Register(typeof(IMapper<,>), typeof(WardMapper<,>));
+            container.Register(typeof(IMapper<,>), typeof(WardMapper<,>)).AsMultiInstance();
         }
 
         protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)

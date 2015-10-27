@@ -1,16 +1,11 @@
-﻿using IceLib.Security.Cryptography;
-using IceLib.Storage;
+﻿using IceLib.Storage;
 using IceLib.Validation;
 using Moq;
 using Nancy.Testing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ward.Model;
-using Ward.Service.Exceptions;
-using Ward.Service.Interfaces;
 using Xunit;
 
 namespace Ward.NancyFx.Tests
@@ -35,7 +30,7 @@ namespace Ward.NancyFx.Tests
                 with.FormValue("Password", "admin");
             });
 
-            var authResponse = response.Body.DeserializeJson<Models.AuthTokenViewModel>();
+            var authResponse = response.Body.DeserializeJson<Resources.AuthTokenResource>();
 
             // Then
             Assert.NotNull(authResponse);
@@ -88,8 +83,8 @@ namespace Ward.NancyFx.Tests
             {
                 var userRepositoryMock = new Mock<IRepository<User>>();
                 
-                var users = new List<User>();
-                    users.Add(new User() { Id = 1, Username = "admin", Password = "admin" });
+                var users = new List<User>();                    
+                    users.Add(new User() { Id = 1, UserName = "admin", Password = "dd94709528bb1c83d08f3088d4043f4742891f4f" }); //Password == admin
 
                 userRepositoryMock.Setup(x => x.Items).Returns(users.AsQueryable());
 

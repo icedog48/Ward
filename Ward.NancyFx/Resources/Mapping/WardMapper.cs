@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ward.NancyFx.Models.Mapping
+namespace Ward.NancyFx.Resources.Mapping
 {
     public class WardMapper<TSource, TTarget> : IMapper<TSource, TTarget>
         where TSource : new()
