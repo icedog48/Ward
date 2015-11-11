@@ -28,7 +28,7 @@ namespace Ward.Validation
         }
     }
 
-    public class UserValidation : AbstractValidator<User>
+    public class UserValidation : BaseValidator<User>
     {
         public enum RuleSets
         {
@@ -45,7 +45,7 @@ namespace Ward.Validation
         {
             this.userRepository = userRepository;
 
-            RuleSet(RuleSets.Default.ToName(), () =>
+            RuleSet(RuleSets.Default, () =>
             {
                 RuleFor(x => x.UserName)
                     .NotEmpty()
@@ -56,7 +56,7 @@ namespace Ward.Validation
                         .WithMessage("Required !");
             });
 
-            RuleSet(RuleSets.Login.ToName(), () =>
+            RuleSet(RuleSets.Login, () =>
             {
                 RuleFor(x => x.Password)
                     .Must(HaveValidPassworld)
@@ -71,20 +71,16 @@ namespace Ward.Validation
 
         protected virtual bool HaveValidPassworld(User user, string passworld)
         {
+            user.Password = passworld;
+
             //Check the password
             var savedUser = userRepository.ActiveItems.FirstOrDefault(x => x.UserName == user.UserName);
 
             if (savedUser == null) return false;
 
-            //Encrypt the password
-            user.Password = Encryption.GenerateSHA1Hash(GetSignature(user.UserName, passworld));
+            user.EncryptPassword();
 
             return (savedUser != null) && (savedUser.Password.Equals(user.Password));
-        }
-
-        protected virtual string GetSignature(string username, string password)
-        {
-            return username + password;
         }
 
         public ValidationResult ValidateLogin(User user)
