@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IceLib.Security", "..\IceLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ward.NancyFx", "Ward.NancyFx\Ward.NancyFx.csproj", "{197EB043-F996-47D6-88AD-E8A18E95A5B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ward.Validation", "Ward.Validation\Ward.Validation.csproj", "{3B9CA778-F364-41D3-ABB8-DF90B94E365B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{197EB043-F996-47D6-88AD-E8A18E95A5B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{197EB043-F996-47D6-88AD-E8A18E95A5B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{197EB043-F996-47D6-88AD-E8A18E95A5B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B9CA778-F364-41D3-ABB8-DF90B94E365B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B9CA778-F364-41D3-ABB8-DF90B94E365B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B9CA778-F364-41D3-ABB8-DF90B94E365B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B9CA778-F364-41D3-ABB8-DF90B94E365B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

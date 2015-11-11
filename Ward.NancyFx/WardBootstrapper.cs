@@ -11,9 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Ward.NancyFx.Resources.Mapping;
 using Ward.NancyFx.Modules;
-using Ward.Service;
 using Ward.Service.Interfaces;
 
 namespace Ward.NancyFx
@@ -23,14 +21,12 @@ namespace Ward.NancyFx
         protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
         {
             base.ConfigureRequestContainer(container, context);
-            
+
             container.AutoRegister( new Assembly[] {
                 typeof(Entity).Assembly, //IceLib.Core
                 typeof(HttpVerbAttribute).Assembly, //IceLib.NancyFx
-                typeof(IAuthService).Assembly //Ward.Service
+                typeof(IAuthService).Assembly, //Ward.Service
             });
-
-            container.Register(typeof(IMapper<,>), typeof(WardMapper<,>)).AsMultiInstance();
         }
 
         protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)

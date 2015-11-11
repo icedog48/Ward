@@ -11,14 +11,13 @@ using Nancy.Authentication.Token.Storage;
 using Nancy.TinyIoc;
 using Nancy.Testing.Fakes;
 using Nancy.Testing;
-using Ward.Service.Interfaces;
+
 using Moq;
 using Ward.Model;
 using IceLib.Storage;
-using Ward.Service;
+
 using System.Reflection;
 using IceLib.Core.Model.Mapping;
-using Ward.NancyFx.Resources.Mapping;
 using Ward.NancyFx.Resources;
 using Ward.NancyFx.Modules;
 using Nancy.Bootstrapper;

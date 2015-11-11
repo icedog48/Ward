@@ -1,4 +1,5 @@
-﻿using IceLib.Security.Cryptography;
+﻿using IceLib.Core.Validation;
+using IceLib.Security.Cryptography;
 using IceLib.Services.Exceptions;
 using IceLib.Storage;
 using System;
@@ -8,40 +9,31 @@ using System.Text;
 using System.Threading.Tasks;
 using Ward.Model;
 using Ward.Service.Interfaces;
+using Ward.Validation;
 
 namespace Ward.Service
 {
     public class AuthService : IAuthService
     {
         private readonly IRepository<User> userRepository;
+        private readonly UserValidation userValidation;
 
-        public AuthService(IRepository<User> userRepository)
+        public AuthService(IRepository<User> userRepository,
+                           UserValidation userValidation)
         {
             this.userRepository = userRepository;
+            this.userValidation = userValidation;
         }
 
-        public IQueryable<User> ActiveItems()
+        public User Login(User user)
         {
-            return this.userRepository.Items.Where(user => user.Active);
-        }
+            this.userValidation
+                    .ValidateLogin(user)
+                        .AndThrow();
 
-        public User Login(string username, string password)
-        {   
-            var user = this.ActiveItems().FirstOrDefault(x => x.UserName == username);
-
-            //TODO: Implement a validation mechanism that dont use magic strings to define messages
-            if (user == null) throw new ValidationException("User not found.");
-
-            password = Encryption.GenerateSHA1Hash(GetSignature(username, password));
-
-            if (!user.Password.Equals(password)) throw new ValidationException("Incorrect password.");
-
-            return user;
-        }
-
-        protected string GetSignature(string username, string password)
-        {
-            return username + password;
+            return this.userRepository
+                            .ActiveItems
+                                .FirstOrDefault(x => x.UserName == user.UserName);
         }
     }
 }

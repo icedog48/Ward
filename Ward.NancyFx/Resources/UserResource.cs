@@ -16,11 +16,9 @@ namespace Ward.NancyFx.Resources
         }
 
         public int Id { get; set; }
-
-        [Required(ErrorMessage = "Username must have a value")]
+        
         public virtual string UserName { get; set; }
-
-        [Required(ErrorMessage = "Password must have a value")]
+        
         public virtual string Password { get; set; }
 
         public IEnumerable<string> Claims

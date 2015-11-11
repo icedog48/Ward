@@ -1,18 +1,26 @@
 ﻿using Nancy;
+using Nancy.ModelBinding;
 using Nancy.Authentication.Token;
+using Nancy.Responses.Negotiation;
 
 using Ward.NancyFx.Resources;
-using Ward.Service.Interfaces;
 using Ward.Model;
+using Ward.Validation;
 
 using IceLib.NancyFx.Attributes;
-using IceLib.Services.Exceptions;
-using IceLib.NancyFx.Binding;
 using IceLib.Storage;
+using IceLib.Validation;
+using IceLib.Core.Validation;
+using IceLib.NancyFx.Validation;
 
 using System.Linq;
-using IceLib.Security.Cryptography;
-using System;
+
+using FluentValidation;
+using AutoMapper;
+using System.Collections.Generic;
+using Nancy.Validation;
+using Ward.NancyFx.Resources.Validation;
+using Ward.Service.Interfaces;
 
 namespace Ward.NancyFx.Modules
 {
@@ -20,33 +28,34 @@ namespace Ward.NancyFx.Modules
     {
         private readonly ITokenizer tokenizer;
         private readonly IAuthService authService;
-        private readonly BindHelper<UserResource, User> userBinder;
+        private readonly UserResourceValidation userResourceValidation;
 
         public AuthModule(ITokenizer tokenizer,
-                          BindHelper<UserResource, User> userBinder,
-                          IAuthService authService) : base("/auth")
+                          IAuthService authService,
+                          UserResourceValidation userResourceValidation) : base("/auth")
         {
             this.tokenizer = tokenizer;
-            this.userBinder = userBinder;
             this.authService = authService;
+            this.userResourceValidation = userResourceValidation;
         }
 
         /// <summary>
         /// POST /auth/login
         /// </summary>
         [Post("/login")]
-        public dynamic Login()
+        public Negotiator Login()
         {
             try
             {
                 //Retrieve and validate the resource from request
-                var user = this.userBinder.BindResource(this);
+                var userResource = this.Bind<UserResource>();
+                this.userResourceValidation.Validate(userResource).AndThrow();
 
-                //Retrieve and validate the user credentials
-                var authenticatedUser = authService.Login(user.UserName, user.Password);
+                //Retrieve the authenticated from the database
+                var authenticatedUser = authService.Login(Mapper.Map<User>(userResource));
 
-                //Map the authenticated user model to autenticated user resource
-                var authenticatedUserResource = userBinder.BindResource(authenticatedUser);
+                //Retrieve the authenticated resource from the model
+                var authenticatedUserResource = Mapper.Map<UserResource>(authenticatedUser);
 
                 //Negotiate a response with the client
                 return Negotiate
@@ -56,12 +65,13 @@ namespace Ward.NancyFx.Modules
                             Token = this.tokenizer.Tokenize(authenticatedUserResource, this.Context)
                         });
             }
-            catch (ValidationException ex)
+            catch (FluentValidation.ValidationException ex)
             {
-                //TODO: Map the Service Exceptions to Nancy Exceptions (exceptions with correct httpStatusCode)
+                var errors = Mapper.Map<IEnumerable<ValidationError>>(ex.Errors);
+
                 return Negotiate
                         .WithStatusCode(HttpStatusCode.BadRequest)
-                        .WithModel(ex.Errors);
+                        .WithModel(errors);
             }
         }
     }

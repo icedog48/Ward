@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation.Results;
+using IceLib.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,10 @@ namespace Ward.NancyFx.Automapper.Profiles
         protected override void Configure()
         {
             Mapper.CreateMap<User, UserResource>();
+
+            Mapper.CreateMap<ValidationFailure, ValidationError>()
+                .ForMember(validationError => validationError.MemberName, config => config.MapFrom(validationFailure => validationFailure.PropertyName))
+                .ForMember(validationError => validationError.ErrorMessage, config => config.MapFrom(validationFailure => validationFailure.ErrorMessage));
         }
     }
 }

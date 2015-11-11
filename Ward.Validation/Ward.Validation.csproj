@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C99FE020-8195-49F5-9293-02F78EBF68A8}</ProjectGuid>
+    <ProjectGuid>{3B9CA778-F364-41D3-ABB8-DF90B94E365B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ward.Service</RootNamespace>
-    <AssemblyName>Ward.Service</AssemblyName>
+    <RootNamespace>Ward.Validation</RootNamespace>
+    <AssemblyName>Ward.Validation</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthService.cs" />
-    <Compile Include="Interfaces\IAuthService.cs" />
+    <Compile Include="UserValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\IceLib\IceLib.Core\IceLib.Core.csproj">
@@ -61,15 +63,7 @@
       <Project>{d2d00177-5b1a-4001-8bb5-9396579eca4b}</Project>
       <Name>Ward.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ward.Validation\Ward.Validation.csproj">
-      <Project>{3b9ca778-f364-41d3-abb8-df90b94e365b}</Project>
-      <Name>Ward.Validation</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
